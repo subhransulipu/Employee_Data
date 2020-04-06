@@ -43,31 +43,44 @@ const tableIcons = {
 class Employee extends Component{
     constructor(){
         super();
+        
          this.state={data:[]}
-        console.log(this.state)
+        console.log("state",this.state)
         
     }
     
     componentDidMount(){
-        fetch("http://dummy.restapiexample.com/api/v1/employees").then((res)=>{
-            return res.json()
-        }).then((test)=>{
-            
-            this.setState({data:test.data});
-            console.log(test.data)
-            console.log(this)
+        const url="https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search"
+
+        fetch(url,{
+            method:"GET"
+        }).then(res =>res.json()).then(posts => {
+          
+            this.setState(
+                {data:posts.data.rows}
+            )
+            // debugger;
+            console.log( "data",posts.data.rows)
         })
     }
  
     
     render(){
-        
+        // const{data}=this.state.data;
+        console.log("fafa",this.state.data)
         this.state={columns : [
-            { title: 'id',field: 'id'},
-            { title: 'Employee_name',field: 'employee_name', headerStyle:{}},
-            { title: 'Employee_salary',field: 'employee_salary'},
-            { title: 'Employee_age',field: 'employee_age'},
-        ] }
+            { title: 'Country',field: 'country'},
+            { title: 'Country Abbreviation',field: 'country_abbreviation', headerStyle:{}},
+            { title: 'Total Cases',field: 'total_cases'},
+            { title: 'New Cases',field: 'new_cases'},
+            { title: 'Total Deaths',field: 'total_deaths'},
+            { title: 'New Deaths',field: 'new_deaths', headerStyle:{}},
+            { title: 'Total Recovered',field: 'total_recovered'},
+            { title: 'Active Cases',field: 'active_cases'},
+            { title: 'Serious Critical',field: 'serious_critical', headerStyle:{}},
+            { title: 'Cases Per Mill Pop',field: 'cases_per_mill_pop'},
+            { title: 'Flag',field: 'flag'},
+        ] ,}
         
            
         return(
@@ -84,49 +97,49 @@ class Employee extends Component{
                     paging: true,
                     actionsColumnIndex: -1,
                   }}
-        editable={{
-          onRowAdd: newData =>
-          new Promise((resolve,reject)=>{
-              setTimeout(()=>{
-                  // eslint-disable-next-line no-lone-blocks
-                  {
-                this.state.data.push(newData);
-                this.setState({ data:this.state.data}, ()=>resolve());
-                console.log( this.state.data)
-                // this.setState(data)
-              }
-              resolve();
-            },1000)
+        // editable={{
+        //   onRowAdd: newData =>
+        //   new Promise((resolve,reject)=>{
+        //       setTimeout(()=>{
+        //           // eslint-disable-next-line no-lone-blocks
+        //           {
+        //         this.state.data.push(newData);
+        //         this.setState({ data:this.state.data}, ()=>resolve());
+        //         console.log( this.state.data)
+        //         // this.setState(data)
+        //       }
+        //       resolve();
+        //     },1000)
 
-          })
-            ,
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const index =  this.state.data.indexOf(oldData);
-                  // eslint-disable-next-line react/no-direct-mutation-state
-                  this.state.data[index] = newData;
-                  this.setState({ data : this.state.data}, () => resolve());
-                  console.log( this.state.data)
-                }
-                resolve()
-              }, 1000)
-            })
-            ,
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const index =  this.state.data.indexOf(oldData);
-                  this.state.data.splice(index, 1);
-                  this.setState({ data: this.state.data }, () => resolve());
-                  console.log( this.state.data)
-                }
-                resolve()
-              }, 1000)
-            }),
-        }}
+        //   })
+        //     ,
+        //   onRowUpdate: (newData, oldData) =>
+        //     new Promise((resolve, reject) => {
+        //       setTimeout(() => {
+        //         {
+        //           const index =  this.state.data.indexOf(oldData);
+        //           // eslint-disable-next-line react/no-direct-mutation-state
+        //           this.state.data[index] = newData;
+        //           this.setState({ data : this.state.data}, () => resolve());
+        //           console.log( this.state.data)
+        //         }
+        //         resolve()
+        //       }, 1000)
+        //     })
+        //     ,
+        //   onRowDelete: oldData =>
+        //     new Promise((resolve, reject) => {
+        //       setTimeout(() => {
+        //         {
+        //           const index =  this.state.data.indexOf(oldData);
+        //           this.state.data.splice(index, 1);
+        //           this.setState({ data: this.state.data }, () => resolve());
+        //           console.log( this.state.data)
+        //         }
+        //         resolve()
+        //       }, 1000)
+        //     }),
+        // }}
                   
                   pageSizeOptions = {[2,4, 6]}  
                   title="Employee Details"
