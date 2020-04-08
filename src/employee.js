@@ -39,15 +39,30 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
-
+  const columns=[ //state cannot be changed directly /* This is 1st way */
+    { title: 'Country',field: 'country'},
+    { title: 'Country Abbreviation',field: 'country_abbreviation', headerStyle:{}},
+    { title: 'Total Cases',field: 'total_cases'},
+    { title: 'New Cases',field: 'new_cases'},
+    { title: 'Total Deaths',field: 'total_deaths'},
+    { title: 'New Deaths',field: 'new_deaths', headerStyle:{}},
+    { title: 'Total Recovered',field: 'total_recovered'},
+    { title: 'Active Cases',field: 'active_cases'},
+    { title: 'Serious Critical',field: 'serious_critical', headerStyle:{}},
+    { title: 'Cases Per Mill Pop',field: 'cases_per_mill_pop'},
+    { title: 'Flag',field: 'flag'},
+]
 class Employee extends Component{
     constructor(){
         super();
         
-         this.state={data:[]}
+         this.state={
+           data:[],
+          columns:[]}
         console.log("state",this.state)
         
     }
+    
     
     componentDidMount(){
         const url="https://corona-virus-stats.herokuapp.com/api/v1/cases/countries-search"
@@ -57,7 +72,7 @@ class Employee extends Component{
         }).then(res =>res.json()).then(posts => {
           
             this.setState(
-                {data:posts.data.rows}
+                {data:posts.data.rows,columns:columns}
             )
             // debugger;
             console.log( "data",posts.data.rows)
@@ -68,19 +83,6 @@ class Employee extends Component{
     render(){
         // const{data}=this.state.data;
         console.log("fafa",this.state.data)
-        this.state={columns : [
-            { title: 'Country',field: 'country'},
-            { title: 'Country Abbreviation',field: 'country_abbreviation', headerStyle:{}},
-            { title: 'Total Cases',field: 'total_cases'},
-            { title: 'New Cases',field: 'new_cases'},
-            { title: 'Total Deaths',field: 'total_deaths'},
-            { title: 'New Deaths',field: 'new_deaths', headerStyle:{}},
-            { title: 'Total Recovered',field: 'total_recovered'},
-            { title: 'Active Cases',field: 'active_cases'},
-            { title: 'Serious Critical',field: 'serious_critical', headerStyle:{}},
-            { title: 'Cases Per Mill Pop',field: 'cases_per_mill_pop'},
-            { title: 'Flag',field: 'flag'},
-        ] ,}
         
            
         return(
